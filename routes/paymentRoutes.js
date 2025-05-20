@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const { stkPush } = require('../controllers/paymentController');
+const { stkPush } = require('../contollers/paymentController');
 
 router.post('/stkpush', stkPush);
 
