@@ -1,11 +1,22 @@
-// controllers/paymentController.js
 const axios = require('axios');
 const moment = require('moment');
 const { getAccessToken } = require('../services/mpesa');
 const asyncHandler = require('express-async-handler');
 
-console.log(getAccessToken);
+// Wrapping the async function call
+const logAccessToken = async () => {
+  try {
+    const token = await getAccessToken();
+    console.log("Access Token:", token); // This will log the actual access token
+  } catch (err) {
+    console.error("Error fetching token:", err.message);
+  }
+};
 
+// Call the function to log the token when the file is executed
+logAccessToken();
+
+// Now you can define the stkPush function
 const stkPush = async (req, res) => {
   const { phone, amount } = req.body;
 
@@ -15,23 +26,8 @@ const stkPush = async (req, res) => {
   ).toString('base64');
 
   try {
-    const token = await getAccessToken();
-    
-    // Log token and request body for debugging
-    console.log("Token:", token);
-    console.log("Request Data:", {
-      BusinessShortCode: process.env.DARAJA_SHORTCODE,
-      Password: password,
-      Timestamp: timestamp,
-      TransactionType: 'CustomerPayBillOnline',
-      Amount: amount,
-      PartyA: phone,
-      PartyB: process.env.DARAJA_SHORTCODE,
-      PhoneNumber: phone,
-      CallBackURL: process.env.CALLBACK_URL,
-      AccountReference: 'AgriDigi',
-      TransactionDesc: 'Platform payment',
-    });
+    const token = await getAccessToken(); // Getting token here
+    console.log("Access Token:", token); // Log the token
 
     const data = {
       BusinessShortCode: process.env.DARAJA_SHORTCODE,

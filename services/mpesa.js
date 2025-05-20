@@ -20,6 +20,7 @@ const getAccessToken = async () => {
         'Authorization': `Basic ${auth}`
       }
     });
+    console.log('Access Token Response:', res.data); 
 
     return res.data.access_token;
   } catch (err) {
